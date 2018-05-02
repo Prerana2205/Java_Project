@@ -1,0 +1,5 @@
+1 Pencil 2
+2 Pen 5
+3 Book 10
+4 Bottle 20
+5 Scale 1
