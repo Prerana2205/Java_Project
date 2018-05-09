@@ -163,63 +163,8 @@ public class InventoryManagementFrame extends JInternalFrame {
 		JButton btnRemoveItem = new JButton("Remove Item");
 		btnRemoveItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				inventory.removeItem(Integer.parseInt(textFieldRemoveItemID.getText()));
 				
-				/*File itemsList = new File("Items.txt");
-				String[] item;
-				Scanner input;
-				boolean isFound = false;
-				BufferedReader reader = null;
-				String oldContent = "";
-		        FileWriter writer = null;
-		        input = new Scanner(itemsList);
-				String newLine;
-				PrintWriter pw = new PrintWriter("TempItem.txt");
-				try {
-					reader = new BufferedReader(new FileReader(itemsList));
-					String line = reader.readLine();
-					while (input.hasNextLine()) {
-						item = newLine.split("\\W+");
-							if(textFieldRemoveItemID.getText().equalsIgnoreCase(item[0])){
-								isFound =true;
-								break;
-							}
-							newLine = input.nextLine();
-								
-					}
-					if(isFound=true)
-						pw.println()
-					
-					// String newContent = oldContent.replaceAll(textFieldRemoveItemID.getText(), newString);
-		             
-			             
-					input = new Scanner(itemsList);
-					String newLine;
-					while (input.hasNextLine()) {
-						newLine = input.nextLine();
-						item = newLine.split("\\W+");
-
-						if (item[0].equals(Integer.parseInt(textFieldRemoveItemID.getText()))) {
-							
-
-						} else {
-							// isFound = false;
-						}
-					}
-
-					if (isFound != true) {// item not in list
-						JOptionPane.showMessageDialog(null, "Invalid Item ID");
-					}
-
-					// input.close();
-				}
-
-				catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, e);
-				}
-
-				
-*/				
 			}
 		});
 		btnRemoveItem.setBounds(64, 315, 138, 25);
@@ -229,19 +174,24 @@ public class InventoryManagementFrame extends JInternalFrame {
 		label_9.setBounds(369, 275, 56, 16);
 		getContentPane().add(label_9);
 		
-		JFormattedTextField formattedTextField_6 = new JFormattedTextField();
-		formattedTextField_6.setBounds(497, 271, 88, 25);
-		getContentPane().add(formattedTextField_6);
+		JFormattedTextField textFieldOrderItemID = new JFormattedTextField();
+		textFieldOrderItemID.setBounds(497, 271, 88, 25);
+		getContentPane().add(textFieldOrderItemID);
 		
 		JLabel label_10 = new JLabel("Quantity");
 		label_10.setBounds(369, 308, 56, 16);
 		getContentPane().add(label_10);
 		
-		JFormattedTextField formattedTextField_7 = new JFormattedTextField();
-		formattedTextField_7.setBounds(497, 304, 88, 25);
-		getContentPane().add(formattedTextField_7);
+		JFormattedTextField textFieldOrderQuantity = new JFormattedTextField();
+		textFieldOrderQuantity.setBounds(497, 304, 88, 25);
+		getContentPane().add(textFieldOrderQuantity);
 		
 		JButton btnPlaceOrder = new JButton("Place Order");
+		btnPlaceOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				inventory.placeOrder(Integer.parseInt(textFieldOrderItemID.getText()), Integer.parseInt(textFieldOrderQuantity.getText()));
+			}
+		});
 		btnPlaceOrder.setBounds(419, 342, 138, 25);
 		getContentPane().add(btnPlaceOrder);
 		

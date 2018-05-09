@@ -18,26 +18,32 @@ public class Inventory {
 		Item item = items.get(itemId);
 		int newQuantity = item.getQuantity() + quantity;
 		item.setQuantity(newQuantity);
+
+		new FileReference().writeItems(items);
 	}
 
-	public void decrementQuantity(int itemId, int quantity) {
+	public void decrementQuantity(int itemId[], int quantity[]) {
 
-		Item item = items.get(itemId);
-		int available = item.getQuantity();
-		int newAvailableQuantity = available - quantity;
-		int threshold = item.getThreshold();
+		for (int i = 0; i < itemId.length; i++) {
 
-		if (newAvailableQuantity >= 0) {
-			item.setQuantity(newAvailableQuantity);
-		} else {
-			// Show an error message
-			// Not enough items in stock
+			Item item = items.get(itemId[i]);
+			int available = item.getQuantity();
+			int newAvailableQuantity = available - quantity[i];
+			int threshold = item.getThreshold();
+
+			if (newAvailableQuantity >= 0) {
+				item.setQuantity(newAvailableQuantity);
+			} else {
+				// Show an error message
+				// Not enough items in stock
+			}
+
+			if (threshold < newAvailableQuantity) {
+				// Show a message: "Order has been placed"
+				// A background process will place an order
+			}
 		}
-
-		if (threshold < newAvailableQuantity) {
-			// Show a message: "Order has been placed"
-			// A background process will place an order
-		}
+		new FileReference().writeItems(items);
 	}
 
 	public void placeOrder(int itemId, int quantity) {
@@ -49,14 +55,14 @@ public class Inventory {
 	}
 
 	public int getItemId() {
-		int itemId =0;
-		if(items.size() >0) {
+		int itemId = 0;
+		if (items.size() > 0) {
 			Set<Integer> iSet = items.keySet();
-			Integer intSet[] =(Integer []) iSet.toArray(new Integer[iSet.size()]);
-			itemId= intSet[intSet.length -1];
+			Integer intSet[] = (Integer[]) iSet.toArray(new Integer[iSet.size()]);
+			itemId = intSet[intSet.length - 1];
 		}
-	//	int itemId =(Integer)items.keySet().toArray()[items.size() -1];
-		
+		// int itemId =(Integer)items.keySet().toArray()[items.size() -1];
+
 		return itemId + 1;
 	}
 

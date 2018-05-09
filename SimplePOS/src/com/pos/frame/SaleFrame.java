@@ -79,7 +79,7 @@ public class SaleFrame extends JInternalFrame {
 		this.username = systemInput.getUserName();
 		setTitle("Create Sale");
 		setClosable(true);
-		setBounds(12, 20, 920, 840);//12, 43, 958, 884
+		setBounds(12, 20, 920, 840);// 12, 43, 958, 884
 		getContentPane().setLayout(null);
 
 		JLabel lblItemId = new JLabel("Item ID");
@@ -107,11 +107,10 @@ public class SaleFrame extends JInternalFrame {
 				// csp.setVisible(true);
 				if (textFieldItemId.getText().length() == 0)
 					JOptionPane.showMessageDialog(null, "Enter a Valid ItemId");
-				else
-					if(((Number) textFieldQuantity.getValue()).doubleValue()>0){
-					addItemsToTable(textFieldItemId.getText(), ((Number) textFieldQuantity.getValue()).doubleValue());}
-					else
-						JOptionPane.showMessageDialog(null, "Enter a Valid Quantity of Item");
+				else if (((Number) textFieldQuantity.getValue()).doubleValue() > 0) {
+					addItemsToTable(textFieldItemId.getText(), ((Number) textFieldQuantity.getValue()).doubleValue());
+				} else
+					JOptionPane.showMessageDialog(null, "Enter a Valid Quantity of Item");
 
 			}
 		});
@@ -134,22 +133,24 @@ public class SaleFrame extends JInternalFrame {
 				if (table.getRowCount() > 0) {
 					if (((Number) textFieldCashReceived.getValue())
 							.doubleValue() >= ((Number) textFieldGrandTotal.getValue()).doubleValue()) {
-						cashReturned= ((Number) textFieldCashReceived.getValue()).doubleValue()
-						- ((Number) textFieldGrandTotal.getValue()).doubleValue();
+						cashReturned = ((Number) textFieldCashReceived.getValue()).doubleValue()
+								- ((Number) textFieldGrandTotal.getValue()).doubleValue();
 						textFieldCashReturned.setValue(cashReturned);
 						generateReceipt();
-						
-						
-/*						cashDiscrepancy = cashDiscrepancy + textFieldGrandTotal.getValue();
-*/						// JOptionPane.showMessageDialog(null, "Generating
-						// Receipt");
-						int type = JOptionPane.showConfirmDialog(null, "Receipt generated", "", JOptionPane.OK_CANCEL_OPTION);
+
+						/*
+						 * cashDiscrepancy = cashDiscrepancy +
+						 * textFieldGrandTotal.getValue();
+						 */ // JOptionPane.showMessageDialog(null, "Generating
+							// Receipt");
+						int type = JOptionPane.showConfirmDialog(null, "Receipt generated", "",
+								JOptionPane.OK_CANCEL_OPTION);
 
 						if (type == JOptionPane.OK_OPTION) {
-							double totalSales= ((Number) textFieldGrandTotal.getValue()).doubleValue();
+							double totalSales = ((Number) textFieldGrandTotal.getValue()).doubleValue();
 							systemInput.setTotalSalesAmount(totalSales);
 							resetTextFields();
-							
+
 						}
 
 					} else
@@ -300,7 +301,7 @@ public class SaleFrame extends JInternalFrame {
 					itemDesc = item[1];
 					itemPrice = Double.parseDouble(item[2]);
 					itemTotal = itemPrice * itemQuantity;
-					row[0] = table.getRowCount()+1;
+					row[0] = table.getRowCount() + 1;
 					row[1] = itemId;
 					row[2] = itemDesc;
 					row[3] = itemPrice;
@@ -420,12 +421,19 @@ public class SaleFrame extends JInternalFrame {
 					"--------------------------------------------------------------------------------------------");
 			output.newLine();
 			output.close();
+
+			createDrawerFile(username, receiptNumber, textFieldGrandTotal);
+			/// **************decrement quantity from Items.txt
+			Inventory inv = new Inventory();
+			int itemId[] = new int[table.getRowCount()];
+			int quantity[] = new int[table.getRowCount()];
+			for (int i = 0; i < table.getRowCount(); i++) {
+				itemId[i]= ((Integer) table.getValueAt(i, 0)).intValue();
+				quantity[i] = ((Integer) table.getValueAt(i, 4)).intValue();
 			
-			createDrawerFile(username, receiptNumber,textFieldGrandTotal);
-			///**************decrement quantity from Items.txt 
-			Inventory[] inv = new Inventory[table.getRowCount()];
-			for (int i = 0; i < table.getRowCount(); i++)
-					inv[i].decrementQuantity(((Integer) table.getValueAt(i, 0)).intValue() ,((Integer)table.getValueAt(i, 4)).intValue());
+
+			}
+			inv.decrementQuantity(itemId, quantity);
 		}
 
 		catch (Exception e) {
@@ -441,36 +449,36 @@ public class SaleFrame extends JInternalFrame {
 		String dateInString = new SimpleDateFormat(pattern).format(new Date());
 		System.out.println(dateInString);
 
-		String fileName = username+"_" + dateInString + ".txt";
+		String fileName = username + "_" + dateInString + ".txt";
 		File folder = new File("Drawer/");
 		File[] listOfFiles = folder.listFiles();
-		File fileToAdd=null;
+		File fileToAdd = null;
 		FileWriter fileWriter;
 		for (File file : listOfFiles) {
-				if (file.getName().equalsIgnoreCase(fileName)) {
-					fileToAdd = file;
-					existingFile = true;
-					break;
-				}
+			if (file.getName().equalsIgnoreCase(fileName)) {
+				fileToAdd = file;
+				existingFile = true;
+				break;
+			}
 		}
 		try {
-		if(existingFile){
-			
+			if (existingFile) {
+
 				fileWriter = new FileWriter(fileToAdd, true);
-			
-		}else{
-			fileToAdd = new File("./Drawer/" + fileName );
-			fileWriter = new FileWriter(fileToAdd);
-		}
-		BufferedWriter output = new BufferedWriter(fileWriter);
-		output.write(receiptNumber+" "+textFieldGrandTotal.getValue()+" "+cashReturned);
-		output.newLine();
-		output.close();
+
+			} else {
+				fileToAdd = new File("./Drawer/" + fileName);
+				fileWriter = new FileWriter(fileToAdd);
+			}
+			BufferedWriter output = new BufferedWriter(fileWriter);
+			output.write(receiptNumber + " " + textFieldGrandTotal.getValue() + " " + cashReturned);
+			output.newLine();
+			output.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 	}
 
 	public void resetTextFields() {
@@ -488,9 +496,9 @@ public class SaleFrame extends JInternalFrame {
 		model.setRowCount(0);
 
 	}
-	
-	public void calculateCashierDiscrepancy(){
-		//cashDiscrepancy = ;
+
+	public void calculateCashierDiscrepancy() {
+		// cashDiscrepancy = ;
 	}
 	/*
 	 * public static void main(String[] args) { EventQueue.invokeLater(new
