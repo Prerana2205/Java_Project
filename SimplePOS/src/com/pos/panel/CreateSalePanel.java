@@ -1,4 +1,4 @@
-package main;
+package com.pos.panel;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,6 +15,10 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JFormattedTextField;
 
+/**
+ * @author Prerana
+ *
+ */
 public class CreateSalePanel extends JPanel {
 	private JTable table;
 	Object[] row = new Object[6];

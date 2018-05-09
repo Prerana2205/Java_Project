@@ -1,5 +1,9 @@
-1 Pencil 2
-2 Pen 5
-3 Book 10
-4 Bottle 20
-5 Scale 1
+1 Pencil 2.0 15 5
+2 Pen 5.0 10 5
+3 Book 10.0 20 5
+4 Bottle 20.0 20 5
+5 Scale 1.0 15 5
+6 Purse 50.0 15 5
+7 watch 100.0 50 10
+8 Gun 500.0 15 10
+9 bag 500.0 23 21

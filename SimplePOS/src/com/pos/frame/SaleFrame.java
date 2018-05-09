@@ -1,4 +1,4 @@
-package main;
+package com.pos.frame;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -9,16 +9,22 @@ import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
@@ -33,10 +39,14 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JDesktopPane;
 
-public class CreateSaleFrame extends JInternalFrame {
+/**
+ * @author Prerana
+ *
+ */
+public class SaleFrame extends JInternalFrame {
 
 	double itemQuantity = 1;
-	static int receiptNumber;
+	int receiptNumber;
 	JScrollPane sPane;
 	DefaultTableModel model;
 	JLabel lblInvoice;
@@ -45,12 +55,14 @@ public class CreateSaleFrame extends JInternalFrame {
 	JFormattedTextField textFieldEmployeeName;
 	private JTable table;
 	Object[] row = new Object[6];
-	static int itemCount = 0;
+	int itemCount = 0;
 	JButton btnRemove;
 	JFormattedTextField textFieldGrandTotal;
 	JFormattedTextField textFieldCashReturned;
 	JFormattedTextField textFieldCashReceived;
 	JFormattedTextField textFieldTotalItems;
+	JFormattedTextField textFieldItemId;
+	JFormattedTextField textFieldQuantity;
 	double cashReceived, grandTotal, cashReturned;
 	String username;
 
@@ -59,11 +71,11 @@ public class CreateSaleFrame extends JInternalFrame {
 	 * 
 	 * @param username
 	 */
-	public CreateSaleFrame(String username) {
+	public SaleFrame(String username, int registerNumber) {
 		this.username = username;
 		setTitle("Create Sale");
 		setClosable(true);
-		setBounds(100, 100, 746, 468);
+		setBounds(12, 20, 920, 840);//12, 43, 958, 884
 		getContentPane().setLayout(null);
 
 		JLabel lblItemId = new JLabel("Item ID");
@@ -74,11 +86,11 @@ public class CreateSaleFrame extends JInternalFrame {
 		lblQuantity.setBounds(12, 100, 56, 16);
 		getContentPane().add(lblQuantity);
 
-		JFormattedTextField textFieldItemId = new JFormattedTextField();
+		textFieldItemId = new JFormattedTextField();
 		textFieldItemId.setBounds(12, 61, 69, 31);
 		getContentPane().add(textFieldItemId);
 
-		JFormattedTextField textFieldQuantity = new JFormattedTextField();
+		textFieldQuantity = new JFormattedTextField();
 		textFieldQuantity.setBounds(12, 118, 69, 31);
 		getContentPane().add(textFieldQuantity);
 		textFieldQuantity.setValue(new Double(itemQuantity));
@@ -92,7 +104,10 @@ public class CreateSaleFrame extends JInternalFrame {
 				if (textFieldItemId.getText().length() == 0)
 					JOptionPane.showMessageDialog(null, "Enter a Valid ItemId");
 				else
-					addItemsToTable(textFieldItemId.getText(), ((Number) textFieldQuantity.getValue()).doubleValue());
+					if(((Number) textFieldQuantity.getValue()).doubleValue()>0){
+					addItemsToTable(textFieldItemId.getText(), ((Number) textFieldQuantity.getValue()).doubleValue());}
+					else
+						JOptionPane.showMessageDialog(null, "Enter a Valid Quantity of Item");
 
 			}
 		});
@@ -102,7 +117,7 @@ public class CreateSaleFrame extends JInternalFrame {
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				deleteAllRows(model);
+				resetTextFields();
 
 			}
 		});
@@ -112,13 +127,26 @@ public class CreateSaleFrame extends JInternalFrame {
 		JButton btnPrintReceipt = new JButton("Print Receipt");
 		btnPrintReceipt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (((Number) textFieldCashReceived.getValue())
-						.doubleValue() >= ((Number) textFieldGrandTotal.getValue()).doubleValue()) {
-					textFieldCashReturned.setValue(((Number) textFieldCashReceived.getValue()).doubleValue()
-							- ((Number) textFieldGrandTotal.getValue()).doubleValue());
-					generateReceipt();
+				if (table.getRowCount() > 0) {
+					if (((Number) textFieldCashReceived.getValue())
+							.doubleValue() >= ((Number) textFieldGrandTotal.getValue()).doubleValue()) {
+						cashReturned= ((Number) textFieldCashReceived.getValue()).doubleValue()
+						- ((Number) textFieldGrandTotal.getValue()).doubleValue();
+						textFieldCashReturned.setValue(cashReturned);
+						generateReceipt();
+						// JOptionPane.showMessageDialog(null, "Generating
+						// Receipt");
+						int type = JOptionPane.showConfirmDialog(null, "Receipt generated", "", JOptionPane.OK_CANCEL_OPTION);
+
+						if (type == JOptionPane.OK_OPTION) {
+							resetTextFields();
+						}
+
+					} else
+						JOptionPane.showMessageDialog(null, "Please enter Cash Received greater than Grand Total");
 				} else
-					JOptionPane.showMessageDialog(null, "Please enter Cash Received greater than Grand Total");
+					JOptionPane.showMessageDialog(null, "Please enter some items before printing");
+
 			}
 
 		});
@@ -173,7 +201,7 @@ public class CreateSaleFrame extends JInternalFrame {
 
 		// textFieldCashReceived.setValue("0");
 		textFieldGrandTotal.setValue(new Double(grandTotal));
-		textFieldCashReturned.setValue(new Double(cashReturned));
+		textFieldCashReturned.setValue(0.0);
 
 		JLabel lblGrandTotal = new JLabel("GRAND TOTAL");
 		lblGrandTotal.setBounds(316, 341, 94, 19);
@@ -196,6 +224,7 @@ public class CreateSaleFrame extends JInternalFrame {
 		textFieldInvoiceNo.setEditable(false);
 		textFieldInvoiceNo.setBounds(80, 21, 106, 19);
 		getContentPane().add(textFieldInvoiceNo);
+		setReceiptNumber();
 
 		lblEmployee = new JLabel("Employee");
 		lblEmployee.setBounds(262, 23, 56, 16);
@@ -261,7 +290,7 @@ public class CreateSaleFrame extends JInternalFrame {
 					itemDesc = item[1];
 					itemPrice = Double.parseDouble(item[2]);
 					itemTotal = itemPrice * itemQuantity;
-					row[0] = itemCount;
+					row[0] = table.getRowCount()+1;
 					row[1] = itemId;
 					row[2] = itemDesc;
 					row[3] = itemPrice;
@@ -307,39 +336,144 @@ public class CreateSaleFrame extends JInternalFrame {
 		System.out.println(total);
 	}
 
-	public static void deleteAllRows(final DefaultTableModel model) {
-		for (int i = model.getRowCount() - 1; i >= 0; i--) {
-			model.removeRow(i);
+	public void setReceiptNumber() {
+		File folder = new File("Invoices/");
+		int startNo = 0;
+		int currentNo;
+		String fileName = "";
+		String[] fileN;
+
+		File[] listOfFiles = folder.listFiles();
+		if (listOfFiles != null) {
+			for (File fileEntry : listOfFiles) {
+				if (fileEntry.isDirectory()) {
+					// listFilesForFolder(fileEntry);
+				} else {
+					System.out.println(fileEntry.getName());
+					fileName = fileEntry.getName();
+					fileN = fileName.split("\\.");
+					currentNo = Integer.parseInt(fileN[0]);
+					// System.out.println("File " + listOfFiles[i].getName());
+					if (currentNo >= startNo)
+						startNo = currentNo;
+				}
+			}
 		}
+
+		receiptNumber = startNo + 1;
+		textFieldInvoiceNo.setValue(receiptNumber);
+
 	}
 
-	//Work under progress
+	// Work under progress
 	private void generateReceipt() {
 		// receiptNumber = 1 ;
 
-		/*File newReceipt = new File(receiptNumber + ".txt");
+		File newReceipt = new File("./Invoices/" + receiptNumber + ".txt");
 		try {
 			// Scanner input = new Scanner(menuItems);
-			PrintWriter output = new PrintWriter(newReceipt);
+
+			BufferedWriter output = new BufferedWriter(new FileWriter(newReceipt));
+			// PrintWriter output = new PrintWriter(newReceipt);
 			// Scanner in = new Scanner(System.in);
 			DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 			Calendar calobj = Calendar.getInstance();
 			// System.out.println(df.format(calobj.getTime()));
 
-			output.print("Invoice number: " + receiptNumber + "\t\t" + "Employee: " + username + "Date/Time: "
-					+ "df.format(calobj.getTime())");
-			output.println();
-			output.println("Item # \t Item ID \t Item Description \t Price \t Quantity \t Total");
-			output.print("");
-			
+			output.write("Invoice number: " + receiptNumber + "\t\t" + "Employee: " + username.toUpperCase() + "\t\t"
+					+ "Date/Time: " + df.format(calobj.getTime()));
+			output.newLine();
+			output.write(
+					"--------------------------------------------------------------------------------------------");
+			output.newLine();
+			output.write(
+					"--------------------------------------------------------------------------------------------");
+			output.newLine();
+			output.write("|Item# \t |Item_ID \t |Item_Description \t |Price \t |Quantity \t |Total\t|");
+			output.newLine();
+			output.write(
+					"--------------------------------------------------------------------------------------------");
+			output.newLine();
+			for (int i = 0; i < table.getRowCount(); i++) {
+				output.write("|" + table.getValueAt(i, 0) + "\t\t\t" + "|" + table.getValueAt(i, 1) + "\t\t\t" + "|"
+						+ table.getValueAt(i, 2) + "\t\t\t" + "|" + table.getValueAt(i, 3) + "\t\t\t" + "|"
+						+ table.getValueAt(i, 4) + "\t\t\t" + "|" + table.getValueAt(i, 5) + "\t|");
+				output.newLine();
+			}
+			output.write(
+					"--------------------------------------------------------------------------------------------");
+			output.newLine();
+			output.write("|\t\t\t\t\t\t\tTotal Qty: " + textFieldTotalItems.getValue() + "\t\t\t\t\t\t\t" + "\tTotal:"
+					+ textFieldGrandTotal.getValue() + "|");
+			output.newLine();
+			output.write(
+					"--------------------------------------------------------------------------------------------");
+			output.newLine();
 			output.close();
+			
+			createDrawerFile(username, receiptNumber,textFieldGrandTotal);
 		}
 
 		catch (Exception e) {
 			System.out.println("There was an error" + e.toString());
 		}
 
-*/	}
+	}
+
+	public void createDrawerFile(String username, int receiptNumber, JFormattedTextField textFieldGrandTotal) {
+
+		boolean existingFile = false;
+		String pattern = "MM-dd-yyyy";
+		String dateInString = new SimpleDateFormat(pattern).format(new Date());
+		System.out.println(dateInString);
+
+		String fileName = username+"_" + dateInString + ".txt";
+		File folder = new File("Drawer/");
+		File[] listOfFiles = folder.listFiles();
+		File fileToAdd=null;
+		FileWriter fileWriter;
+		for (File file : listOfFiles) {
+				if (file.getName().equalsIgnoreCase(fileName)) {
+					fileToAdd = file;
+					existingFile = true;
+					break;
+				}
+		}
+		try {
+		if(existingFile){
+			
+				fileWriter = new FileWriter(fileToAdd, true);
+			
+		}else{
+			fileToAdd = new File("./Drawer/" + fileName );
+			fileWriter = new FileWriter(fileToAdd);
+		}
+		BufferedWriter output = new BufferedWriter(fileWriter);
+		output.write(receiptNumber+" "+textFieldGrandTotal.getValue()+" "+cashReturned);
+		output.newLine();
+		output.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+
+	public void resetTextFields() {
+
+		// reset all text boxes
+		textFieldCashReceived.setValue(0);
+		textFieldCashReturned.setValue(0);
+		textFieldGrandTotal.setValue(0);
+		setReceiptNumber();
+		textFieldTotalItems.setValue(0);
+		textFieldItemId.setValue(0);
+		textFieldQuantity.setValue(1);
+		// Remove all table rows
+
+		model.setRowCount(0);
+
+	}
 	/*
 	 * public static void main(String[] args) { EventQueue.invokeLater(new
 	 * Runnable() { public void run() { try { CreateSaleFrame frame = new

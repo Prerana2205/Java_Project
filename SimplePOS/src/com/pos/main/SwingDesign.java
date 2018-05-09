@@ -1,4 +1,4 @@
-package main;
+package com.pos.main;
 
 import java.awt.Color;
 import java.awt.event.KeyListener;
@@ -12,12 +12,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.UIManager;
+
+import com.pos.frame.MainPageFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 
+/**
+ * @author Prerana
+ *
+ */
 public class SwingDesign extends javax.swing.JFrame {
 	
 
@@ -55,7 +62,7 @@ public class SwingDesign extends javax.swing.JFrame {
 		JTextArea messageTextArea = new JTextArea();
 		messageTextArea.setEditable(false);
 		messageTextArea.setBackground(new Color(255, 255, 255));
-		messageTextArea.setBounds(33, 232, 217, 48);
+		messageTextArea.setBounds(12, 234, 237, 48);
 		getContentPane().add(messageTextArea);
 		
 		JFormattedTextField usernameTextField = new JFormattedTextField();
@@ -85,13 +92,10 @@ public class SwingDesign extends javax.swing.JFrame {
 						password = string[1];
 						if (inputUsername.equals(username) && inputPassword.equals(password)) {
 							dispose();
-							NextPage page = new NextPage(username);
+							MainPageFrame page = new MainPageFrame(username);
 							page.setVisible(true);
 							
-							//JLabel label = new JLabel("Welcome: " + username);
-							//page.getContentPane().add(label);
 						} else {
-						//	System.out.println("Enter the valid username and password");
 							messageTextArea.setText("Enter the valid username and password");
 						}
 						
@@ -108,7 +112,7 @@ public class SwingDesign extends javax.swing.JFrame {
 
 	}
 
-	public static void main(String arg[]) {
+	public static void main(String[] arg) {
 
 		SwingDesign frame = new SwingDesign();
 		frame.setSize(300, 400);
