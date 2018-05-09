@@ -11,7 +11,6 @@ import javax.swing.JTextArea;
  */
 public class AboutFrame extends JInternalFrame {
 
-	
 	/**
 	 * 
 	 */
@@ -27,20 +26,16 @@ public class AboutFrame extends JInternalFrame {
 		setTitle("About Software");
 		setSize(1000, 1000);
 		getContentPane().setLayout(null);
-		
+
 		JTextArea txtrVersion = new JTextArea();
 		txtrVersion.setText("Simple POS");
 		txtrVersion.setBounds(52, 37, 330, 31);
 		getContentPane().add(txtrVersion);
-		
+
 		JTextArea textArea = new JTextArea();
 		textArea.setText("Version: 1.0");
 		textArea.setBounds(52, 81, 330, 31);
 		getContentPane().add(textArea);
-		
-		
-		
-		
-		
+
 	}
 }

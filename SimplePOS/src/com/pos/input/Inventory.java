@@ -36,6 +36,13 @@ public class Inventory {
             // A background process will place an order
         }
     }
+    
+    public void placeOrder(int itemId,int quantity) {
+    	Item item = items.get(itemId);
+    	item.setPlaceOrder(true);
+    	item.setQuantityOrderPlaced(quantity);
+    	
+    }
 
     public int getItemId(){
     	return items.size()+1;

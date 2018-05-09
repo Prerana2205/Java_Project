@@ -59,7 +59,11 @@ public class FileReference {
                 writer.write(item.getDescription() + " ");
                 writer.write(item.getPrice() + " ");
                 writer.write(item.getQuantity() + " ");
-                writer.write(item.getThreshold() + "\n");
+                writer.write(item.getThreshold() + " ");
+                writer.write(item.getSupplier() + " ");
+                writer.write(item.getQuantityOrderPlaced() + " ");
+                writer.write(item.getPlaceDate() + "\n");
+                
             }
 
             writer.close();

@@ -33,7 +33,7 @@ public class InventoryReport extends JInternalFrame {
 		table = new JTable();
 		table.setFocusable(false);
 		DefaultTableModel model = new DefaultTableModel(new Object[][] {},
-				new String[] { "Id", "Name", "Price", "Quantity", "Threshold Quantity" });
+				new String[] { "Id", "Name", "Price", "Quantity", "Threshold Quantity" ,"Supplier","Remaining Orders" });
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
@@ -47,7 +47,7 @@ public class InventoryReport extends JInternalFrame {
 	}
 
 	public void addReportToTable(DefaultTableModel model) {
-		Object[] row = new Object[5];
+		Object[] row = new Object[7];
 		String line;
 		FileReader fileReader;
 		BufferedReader bufferedReader;
@@ -63,6 +63,9 @@ public class InventoryReport extends JInternalFrame {
 				row[2] = lines[2];
 				row[3] = lines[3];
 				row[4] = lines[4];
+				row[5] = lines[5];
+				row[6] = lines[6];
+				
 				model.addRow(row);
 			}
 			bufferedReader.close();

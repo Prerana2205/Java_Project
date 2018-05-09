@@ -12,7 +12,7 @@ public class InventoryTest extends TestCase {
 	
 	public void testReadInventory(){
 	
-		System.out.println(inventory.getItemId());
+	//	System.out.println(inventory.getItemId());
 	}
 	
 	public void testWriteItems(){
@@ -24,10 +24,14 @@ public class InventoryTest extends TestCase {
 		// TODO Auto-generated method stub
 		Item item = new Item();
 		item.setItemId(inventory.getItemId());
-		item.setDescription("Purse");
+		item.setDescription("Wallet");
 		item.setPrice(50);
 		item.setQuantity(15);
 		item.setThreshold(5);
+		item.setSupplier("COSTCO");
+		item.setQuantityOrderPlaced(10);
+		item.setPlaceOrder(false);
+		
 		return item;
 	}
 }

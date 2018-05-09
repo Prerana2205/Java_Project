@@ -1,9 +1,4 @@
-1 Pencil 2.0 15 5
-2 Pen 5.0 10 5
-3 Book 10.0 20 5
-4 Bottle 20.0 20 5
-5 Scale 1.0 15 5
-6 Purse 50.0 15 5
-7 watch 100.0 50 10
-8 Gun 500.0 15 10
-9 bag 500.0 23 21
+1 Purse 50.0 15 5 null 10 05-09-2018
+2 Purse 50.0 15 5 COSTCO 10 05-09-2018
+3 Purse 50.0 15 5 COSTCO 10 ##-##-####
+4 Wallet 50.0 15 5 COSTCO 0 ##-##-####
