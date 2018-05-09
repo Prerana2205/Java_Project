@@ -7,11 +7,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import com.pos.input.FileReference;
 import com.pos.input.Inventory;
 import com.pos.input.Item;
 
 import javax.swing.JFormattedTextField;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.Scanner;
 import java.awt.event.ActionEvent;
 
 /**
@@ -22,14 +30,18 @@ public class InventoryManagementFrame extends JInternalFrame {
 
 	private Inventory inventory = new Inventory();
 	private int itemId = 0;
-	
+
 	String decnumberregex = "\\d+(\\.\\d{1,2})?";
 	String numberregex = "\\d+";
 	JFormattedTextField textFieldItemDescription;
 	JFormattedTextField textFieldQuantity;
-	JFormattedTextField itemIdTextField ;
+	JFormattedTextField itemIdTextField;
 	JFormattedTextField thresholdTextField;
 	JFormattedTextField textFieldItemPrice;
+	JFormattedTextField textFieldRemoveItemID;
+	JFormattedTextField textFieldUpdateItemID;
+	JFormattedTextField textFieldUpdateQuantity;
+
 	public InventoryManagementFrame() {
 		
 		setTitle("Inventory Management");
@@ -43,10 +55,16 @@ public class InventoryManagementFrame extends JInternalFrame {
 				addNewItem();
 			}
 		});
-		btnAddItem.setBounds(64, 182, 138, 25);
+		btnAddItem.setBounds(64, 215, 138, 25);
 		getContentPane().add(btnAddItem);
 		
-		JButton btnUpdateQuantity = new JButton("Update Quantity");
+		JButton btnUpdateQuantity = new JButton("Update ");
+		btnUpdateQuantity.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Inventory inventory = new Inventory();
+				inventory.incrementQuantity(Integer.parseInt(textFieldUpdateItemID.getText()), Integer.parseInt(textFieldUpdateQuantity.getText()));
+			}
+		});
 		btnUpdateQuantity.setBounds(419, 182, 138, 25);
 		getContentPane().add(btnUpdateQuantity);
 		
@@ -98,9 +116,9 @@ public class InventoryManagementFrame extends JInternalFrame {
 		label_3.setBounds(369, 21, 56, 16);
 		getContentPane().add(label_3);
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		formattedTextField.setBounds(497, 17, 88, 25);
-		getContentPane().add(formattedTextField);
+		textFieldUpdateItemID = new JFormattedTextField();
+		textFieldUpdateItemID.setBounds(497, 17, 88, 25);
+		getContentPane().add(textFieldUpdateItemID);
 		
 		JFormattedTextField formattedTextField_1 = new JFormattedTextField();
 		formattedTextField_1.setBounds(497, 50, 88, 25);
@@ -118,9 +136,9 @@ public class InventoryManagementFrame extends JInternalFrame {
 		formattedTextField_2.setBounds(497, 79, 88, 25);
 		getContentPane().add(formattedTextField_2);
 		
-		JFormattedTextField formattedTextField_3 = new JFormattedTextField();
-		formattedTextField_3.setBounds(497, 112, 88, 25);
-		getContentPane().add(formattedTextField_3);
+		textFieldUpdateQuantity = new JFormattedTextField();
+		textFieldUpdateQuantity.setBounds(497, 112, 88, 25);
+		getContentPane().add(textFieldUpdateQuantity);
 		
 		JLabel label_6 = new JLabel("Quantity");
 		label_6.setBounds(369, 116, 56, 16);
@@ -135,27 +153,105 @@ public class InventoryManagementFrame extends JInternalFrame {
 		getContentPane().add(formattedTextField_4);
 		
 		JLabel label_8 = new JLabel("ItemId");
-		label_8.setBounds(22, 295, 56, 16);
+		label_8.setBounds(22, 274, 56, 16);
 		getContentPane().add(label_8);
 		
-		JLabel label_9 = new JLabel("Item Description");
-		label_9.setBounds(22, 328, 116, 16);
-		getContentPane().add(label_9);
-		
-		JFormattedTextField formattedTextField_5 = new JFormattedTextField();
-		formattedTextField_5.setBounds(150, 324, 88, 25);
-		getContentPane().add(formattedTextField_5);
-		
-		JFormattedTextField formattedTextField_6 = new JFormattedTextField();
-		formattedTextField_6.setBounds(150, 291, 88, 25);
-		getContentPane().add(formattedTextField_6);
+		textFieldRemoveItemID = new JFormattedTextField();
+		textFieldRemoveItemID.setBounds(150, 270, 88, 25);
+		getContentPane().add(textFieldRemoveItemID);
 		
 		JButton btnRemoveItem = new JButton("Remove Item");
-		btnRemoveItem.setBounds(64, 371, 138, 25);
+		btnRemoveItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				/*File itemsList = new File("Items.txt");
+				String[] item;
+				Scanner input;
+				boolean isFound = false;
+				BufferedReader reader = null;
+				String oldContent = "";
+		        FileWriter writer = null;
+		        input = new Scanner(itemsList);
+				String newLine;
+				PrintWriter pw = new PrintWriter("TempItem.txt");
+				try {
+					reader = new BufferedReader(new FileReader(itemsList));
+					String line = reader.readLine();
+					while (input.hasNextLine()) {
+						item = newLine.split("\\W+");
+							if(textFieldRemoveItemID.getText().equalsIgnoreCase(item[0])){
+								isFound =true;
+								break;
+							}
+							newLine = input.nextLine();
+								
+					}
+					if(isFound=true)
+						pw.println()
+					
+					// String newContent = oldContent.replaceAll(textFieldRemoveItemID.getText(), newString);
+		             
+			             
+					input = new Scanner(itemsList);
+					String newLine;
+					while (input.hasNextLine()) {
+						newLine = input.nextLine();
+						item = newLine.split("\\W+");
+
+						if (item[0].equals(Integer.parseInt(textFieldRemoveItemID.getText()))) {
+							
+
+						} else {
+							// isFound = false;
+						}
+					}
+
+					if (isFound != true) {// item not in list
+						JOptionPane.showMessageDialog(null, "Invalid Item ID");
+					}
+
+					// input.close();
+				}
+
+				catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e);
+				}
+
+				
+*/				
+			}
+		});
+		btnRemoveItem.setBounds(64, 315, 138, 25);
 		getContentPane().add(btnRemoveItem);
 		
+		JLabel label_9 = new JLabel("ItemId");
+		label_9.setBounds(369, 275, 56, 16);
+		getContentPane().add(label_9);
 		
+		JFormattedTextField formattedTextField_6 = new JFormattedTextField();
+		formattedTextField_6.setBounds(497, 271, 88, 25);
+		getContentPane().add(formattedTextField_6);
 		
+		JLabel label_10 = new JLabel("Quantity");
+		label_10.setBounds(369, 308, 56, 16);
+		getContentPane().add(label_10);
+		
+		JFormattedTextField formattedTextField_7 = new JFormattedTextField();
+		formattedTextField_7.setBounds(497, 304, 88, 25);
+		getContentPane().add(formattedTextField_7);
+		
+		JButton btnPlaceOrder = new JButton("Place Order");
+		btnPlaceOrder.setBounds(419, 342, 138, 25);
+		getContentPane().add(btnPlaceOrder);
+		
+		JLabel lblSupplier = new JLabel("Supplier");
+		lblSupplier.setBounds(22, 181, 105, 16);
+		getContentPane().add(lblSupplier);
+		
+		JFormattedTextField formattedTextField = new JFormattedTextField();
+		formattedTextField.setBounds(150, 177, 88, 25);
+		getContentPane().add(formattedTextField);
 		
 
 	}

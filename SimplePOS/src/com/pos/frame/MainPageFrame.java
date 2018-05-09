@@ -53,6 +53,7 @@ public class MainPageFrame extends JFrame {
 		getContentPane().add(labelDateTime);
 
 		textFieldRegisterNumber = new JTextField();
+		textFieldRegisterNumber.setEditable(false);
 		textFieldRegisterNumber.setBounds(80, 8, 116, 22);
 		getContentPane().add(textFieldRegisterNumber);
 		textFieldRegisterNumber.setColumns(10);
@@ -114,7 +115,7 @@ public class MainPageFrame extends JFrame {
 		});
 		mnFile.add(mntmExit);
 
-		JMenu mnSettings = new JMenu("Settings");
+		JMenu mnSettings = new JMenu("Management");
 		menuBar.add(mnSettings);
 
 		JMenuItem mntmInventorymanagement = new JMenuItem("Inventory Management");

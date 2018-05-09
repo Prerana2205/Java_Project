@@ -35,6 +35,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.pos.input.Inventory;
 import com.pos.input.SystemInput;
 
 import java.awt.GridBagLayout;
@@ -421,6 +422,10 @@ public class SaleFrame extends JInternalFrame {
 			output.close();
 			
 			createDrawerFile(username, receiptNumber,textFieldGrandTotal);
+			///**************decrement quantity from Items.txt 
+			Inventory[] inv = new Inventory[table.getRowCount()];
+			for (int i = 0; i < table.getRowCount(); i++)
+					inv[i].decrementQuantity(((Integer) table.getValueAt(i, 0)).intValue() ,((Integer)table.getValueAt(i, 4)).intValue());
 		}
 
 		catch (Exception e) {
