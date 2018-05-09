@@ -21,7 +21,7 @@ public class RegisterReport extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public RegisterReport() {
-		setTitle("Inventory Report");
+		setTitle("Register Report");
 		setClosable(true);
 		setBounds(100, 100, 623, 510);
 		getContentPane().setLayout(null);
@@ -33,26 +33,26 @@ public class RegisterReport extends JInternalFrame {
 		table = new JTable();
 		table.setFocusable(false);
 		DefaultTableModel model = new DefaultTableModel(new Object[][] {},
-				new String[] { "Id", "Name", "Price", "Quantity", "Threshold Quantity" });
+				new String[] { "Register#", "UserName", "LogOnDate", "LogOffDate", "LogOnTime","LogOffTime","TotalSales" });
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
-		JLabel lblInventoryReport = new JLabel("Inventory Report");
-		lblInventoryReport.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInventoryReport.setBounds(161, 13, 263, 36);
-		getContentPane().add(lblInventoryReport);
+		JLabel lblRegisterReport = new JLabel("Register Report");
+		lblRegisterReport.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegisterReport.setBounds(161, 13, 263, 36);
+		getContentPane().add(lblRegisterReport);
 
 		addReportToTable(model);
 
 	}
 
 	public void addReportToTable(DefaultTableModel model) {
-		Object[] row = new Object[5];
+		Object[] row = new Object[7];
 		String line;
 		FileReader fileReader;
 		BufferedReader bufferedReader;
 		try {
-			fileReader = new FileReader("Items.txt");
+			fileReader = new FileReader("Register.txt");
 
 			 bufferedReader = new BufferedReader(fileReader);
 
@@ -63,6 +63,8 @@ public class RegisterReport extends JInternalFrame {
 				row[2] = lines[2];
 				row[3] = lines[3];
 				row[4] = lines[4];
+				row[5] = lines[5];
+				row[6] = lines[6];
 				model.addRow(row);
 			}
 			bufferedReader.close();

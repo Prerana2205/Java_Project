@@ -12,4 +12,5 @@ public class InventoryReportTest extends TestCase{
 		inventory.addReportToTable(new DefaultTableModel());
 	}
 
+	
 }

@@ -12,6 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+
+import com.pos.input.SystemInput;
+
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import java.awt.event.ActionListener;
@@ -45,7 +48,7 @@ public class ReturnFrame extends JInternalFrame {
 	double itemPrice = 0;
 	double itemTotal = 0;
 
-	public ReturnFrame(String username, int registerNumber) {
+	public ReturnFrame(SystemInput systemInput, int registerNumber) {
 
 		setTitle("Create Return");
 		setClosable(true);
@@ -190,7 +193,7 @@ public class ReturnFrame extends JInternalFrame {
 		textFieldTotalItems.setBounds(219, 339, 94, 22);
 		panel.add(textFieldTotalItems);
 
-		this.username = username;
+		this.username = systemInput.getUserName();
 
 	}
 

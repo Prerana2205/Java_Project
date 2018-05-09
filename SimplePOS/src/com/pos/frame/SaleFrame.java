@@ -35,6 +35,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.pos.input.SystemInput;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JDesktopPane;
@@ -71,8 +73,8 @@ public class SaleFrame extends JInternalFrame {
 	 * 
 	 * @param username
 	 */
-	public SaleFrame(String username, int registerNumber) {
-		this.username = username;
+	public SaleFrame(SystemInput systemInput, int registerNumber) {
+		this.username = systemInput.getUserName();
 		setTitle("Create Sale");
 		setClosable(true);
 		setBounds(12, 20, 920, 840);//12, 43, 958, 884
@@ -139,7 +141,10 @@ public class SaleFrame extends JInternalFrame {
 						int type = JOptionPane.showConfirmDialog(null, "Receipt generated", "", JOptionPane.OK_CANCEL_OPTION);
 
 						if (type == JOptionPane.OK_OPTION) {
+							double totalSales= ((Number) textFieldGrandTotal.getValue()).doubleValue();
+							systemInput.setTotalSalesAmount(totalSales);
 							resetTextFields();
+							
 						}
 
 					} else
