@@ -1,9 +1,6 @@
 package com.pos.input;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Set;
 
 public class Inventory {
@@ -58,7 +55,7 @@ public class Inventory {
 		int itemId = 0;
 		if (items.size() > 0) {
 			Set<Integer> iSet = items.keySet();
-			Integer intSet[] = (Integer[]) iSet.toArray(new Integer[iSet.size()]);
+			Integer intSet[] = iSet.toArray(new Integer[iSet.size()]);
 			itemId = intSet[intSet.length - 1];
 		}
 		// int itemId =(Integer)items.keySet().toArray()[items.size() -1];

@@ -1,23 +1,29 @@
 package com.pos.frame;
 
-import javax.swing.*;
-
-import com.pos.frame.report.InventoryReport;
-import com.pos.input.Cashier;
-import com.pos.frame.report.RegisterReport;
-import com.pos.input.SystemInput;
-import com.pos.main.SwingDesign;
-
-import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JTextField;
+import javax.swing.Timer;
+
+import com.pos.frame.report.CashierReport;
+import com.pos.frame.report.DrawerManagementFrame;
+import com.pos.frame.report.InventoryReport;
+import com.pos.frame.report.RegisterReport;
+import com.pos.input.SystemInput;
+import com.pos.main.SwingDesign;
 
 /**
  * @author Prerana
@@ -36,9 +42,11 @@ public class MainPageFrame extends JFrame {
 		systemInput.setLogOnTime();
 		systemInput.setUserName(userName);
 		systemInput.setRegisterNumber("1");
+
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Welcome " + userName);
-		setSize(1000, 1000);
+		setSize(1000, 779);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 
 		JDesktopPane desktop = new JDesktopPane();
@@ -83,6 +91,7 @@ public class MainPageFrame extends JFrame {
 		// CREATE SALE
 		JMenuItem mntmCreateSale = new JMenuItem("Create Sale");
 		mntmCreateSale.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				desktop.removeAll();
 				desktop.updateUI();
@@ -97,6 +106,7 @@ public class MainPageFrame extends JFrame {
 		// RETURN SALE
 		JMenuItem mntmReturn = new JMenuItem("Return");
 		mntmReturn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				desktop.removeAll();
 				desktop.updateUI();
@@ -109,6 +119,7 @@ public class MainPageFrame extends JFrame {
 
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
@@ -120,6 +131,7 @@ public class MainPageFrame extends JFrame {
 
 		JMenuItem mntmInventorymanagement = new JMenuItem("Inventory Management");
 		mntmInventorymanagement.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				desktop.removeAll();
 				desktop.updateUI();
@@ -132,70 +144,48 @@ public class MainPageFrame extends JFrame {
 
 		JMenuItem mntmDrawerManagement = new JMenuItem("Drawer Management");
 		mntmDrawerManagement.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				desktop.removeAll();
 				desktop.updateUI();
-				DrawerFrame drawer = new DrawerFrame();
+				DrawerManagementFrame drawer = new DrawerManagementFrame();
 				desktop.add(drawer);
 				drawer.setVisible(true);
 			}
 		});
 		mnSettings.add(mntmDrawerManagement);
 
-		JMenuItem mntmNewMenuItem = new JMenuItem("Cashier Management");
+		/*JMenuItem mntmNewMenuItem = new JMenuItem("Cashier Management");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				desktop.removeAll();
 				desktop.updateUI();
-				CashierFrame cashier = new CashierFrame();
+				CashierManagementFrame cashier = new CashierManagementFrame();
 				desktop.add(cashier);
 				cashier.setVisible(true);
+				cashier.getSize();
+
+
+				Dimension parentSize = desktop.getSize();
+				Dimension childSize = cashier.getSize();
+
+				//set center screen
+				cashier.setLocation((parentSize.width - childSize.width)/2, (parentSize.height - childSize.height)/2);
+
 
 			}
 		});
-		mnSettings.add(mntmNewMenuItem);
+		mnSettings.add(mntmNewMenuItem);*/
 
-		JMenu mnHelp = new JMenu("Help");
-		menuBar.add(mnHelp);
 
-		JMenuItem mntmFindItems = new JMenuItem("Find Items");
-		mnHelp.add(mntmFindItems);
-
-		JMenuItem mntmAbout = new JMenuItem("About");
-		mntmAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				desktop.removeAll();
-				desktop.updateUI();
-				AboutFrame af = new AboutFrame();
-				desktop.add(af);
-				af.setVisible(true);
-			}
-		});
-		mnHelp.add(mntmAbout);
-
-		JMenuItem mntmLogout = new JMenuItem("Logout");
-		mntmLogout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cashierEndTime = System.currentTimeMillis() / 1000 / 60;
-				/*
-				 * Cashier cashier = new
-				 * Cashier(username,cashierStartTime,cashierEndTime,
-				 * Integer.parseInt(textFieldRegisterNumber.getText()), );
-				 */ dispose();
-				SwingDesign sd = new SwingDesign();
-				sd.setSize(300, 400);
-				sd.setVisible(true);
-
-				addDataToRegister(systemInput);
-			}
-		});
-		mnHelp.add(mntmLogout);
 
 		JMenu mnReports = new JMenu("Reports");
 		menuBar.add(mnReports);
 
 		JMenuItem mntmRegister = new JMenuItem("Register");
 		mntmRegister.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				desktop.removeAll();
 				desktop.updateUI();
@@ -209,6 +199,7 @@ public class MainPageFrame extends JFrame {
 
 		JMenuItem mntmInventory = new JMenuItem("Inventory");
 		mntmInventory.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				desktop.removeAll();
 				desktop.updateUI();
@@ -221,7 +212,58 @@ public class MainPageFrame extends JFrame {
 		mnReports.add(mntmInventory);
 
 		JMenuItem mntmCashier = new JMenuItem("Cashier");
+		mntmCashier.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+
+				desktop.updateUI();
+				CashierReport cashierReport = new CashierReport(systemInput);
+				desktop.add(cashierReport);
+				cashierReport.setVisible(true);
+
+
+			}
+		});
 		mnReports.add(mntmCashier);
+
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+
+
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				desktop.removeAll();
+				desktop.updateUI();
+				AboutFrame af = new AboutFrame();
+				desktop.add(af);
+				af.setVisible(true);
+			}
+		});
+		mnHelp.add(mntmAbout);
+
+		JMenuItem mntmLogout = new JMenuItem("Logout");
+		mntmLogout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cashierEndTime = System.currentTimeMillis() / 1000 / 60;
+				/*
+				 * Cashier cashier = new
+				 * Cashier(username,cashierStartTime,cashierEndTime,
+				 * Integer.parseInt(textFieldRegisterNumber.getText()), );
+				 */
+				dispose();
+				SwingDesign sd = new SwingDesign();
+				sd.setSize(300, 400);
+				sd.setVisible(true);
+				sd.setLocationRelativeTo(null);
+				addDataToRegister(systemInput);
+			}
+		});
+		mnHelp.add(mntmLogout);
+
 
 		prepareGUI();
 	}

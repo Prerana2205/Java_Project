@@ -2,9 +2,8 @@ package com.pos.frame;
 
 import java.awt.EventQueue;
 
-import javax.swing.JInternalFrame;
 import javax.swing.JButton;
-import java.awt.BorderLayout;
+import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +16,7 @@ public class OrderManagementFrame extends JInternalFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					OrderManagementFrame frame = new OrderManagementFrame();
@@ -35,19 +35,19 @@ public class OrderManagementFrame extends JInternalFrame {
 		setClosable(true);
 		setBounds(100, 100, 512, 511);
 		getContentPane().setLayout(null);
-		
+
 		JButton btnGenerateReport = new JButton("Generate Report");
 		btnGenerateReport.setBounds(159, 42, 163, 33);
 		getContentPane().add(btnGenerateReport);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(33, 193, 422, 224);
 		getContentPane().add(scrollPane);
-		
+
 		table = new JTable();
 		table.setFocusable(false);
 		DefaultTableModel model = new DefaultTableModel(new Object[][] {},
-				new String[] { "Car Price", "Trade In Value", "Interest Rate", "Number Of Months", "Monthly Payment" });
+				new String[] { "Supplier", "Order Placed" });
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 

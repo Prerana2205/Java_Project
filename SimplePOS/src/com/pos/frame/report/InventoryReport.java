@@ -1,18 +1,15 @@
 package com.pos.frame.report;
 
-import java.awt.EventQueue;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.JInternalFrame;
-import javax.swing.JScrollPane;
-import java.awt.BorderLayout;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class InventoryReport extends JInternalFrame {
 	private JTable table;
@@ -33,10 +30,10 @@ public class InventoryReport extends JInternalFrame {
 		table = new JTable();
 		table.setFocusable(false);
 		DefaultTableModel model = new DefaultTableModel(new Object[][] {},
-				new String[] { "Id", "Name", "Price", "Quantity", "Threshold Quantity" ,"Supplier","Remaining Orders" });
+				new String[] { "Id", "Name", "Price", "Quantity", "Threshold Quantity" ,"Supplier","Outstanding Orders" });
 		table.setModel(model);
 		scrollPane.setViewportView(table);
-		
+
 		JLabel lblInventoryReport = new JLabel("Inventory Report");
 		lblInventoryReport.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInventoryReport.setBounds(161, 13, 263, 36);
@@ -54,7 +51,7 @@ public class InventoryReport extends JInternalFrame {
 		try {
 			fileReader = new FileReader("Items.txt");
 
-			 bufferedReader = new BufferedReader(fileReader);
+			bufferedReader = new BufferedReader(fileReader);
 
 			while ((line = bufferedReader.readLine()) != null) {
 				String lines[] = line.split(" ");
@@ -65,7 +62,7 @@ public class InventoryReport extends JInternalFrame {
 				row[4] = lines[4];
 				row[5] = lines[5];
 				row[6] = lines[6];
-				
+
 				model.addRow(row);
 			}
 			bufferedReader.close();

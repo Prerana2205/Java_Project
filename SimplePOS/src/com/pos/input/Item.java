@@ -105,7 +105,6 @@ public class Item {
 		this.supplier = supplier;
 	}
 
-	
 
 	/**
 	 * @param quantityOrderPlaced the quantityOrderPlaced to set
@@ -118,7 +117,7 @@ public class Item {
 		}
 	}
 
-	
+
 
 	public Item(String line) {
 		String[] fields = line.split(" ");

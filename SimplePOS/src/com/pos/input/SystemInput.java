@@ -12,15 +12,15 @@ public class SystemInput {
 	private String logOnTime;
 	private String logOffTime;
 	private double totalSalesAmount;
-	
+
 	String datePattern = "MM-dd-yyyy";
 	String timePattern = "HH:mm:ss";
-	
+
 	/**
 	 * @return the userName
 	 */
 	public String getUserName() {
-		return userName;
+		return userName.toLowerCase();
 	}
 	/**
 	 * @param userName the userName to set
@@ -90,9 +90,9 @@ public class SystemInput {
 	public void setTotalSalesAmount(double totalSalesAmount) {
 		this.totalSalesAmount = this.totalSalesAmount + totalSalesAmount;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 }

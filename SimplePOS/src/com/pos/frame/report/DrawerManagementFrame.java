@@ -1,23 +1,17 @@
-package com.pos.frame;
+package com.pos.frame.report;
 
-import java.awt.EventQueue;
-import java.awt.Font;
-
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JFormattedTextField;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.awt.event.ActionEvent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Prerana
  *
  */
-public class DrawerFrame extends JInternalFrame {
+public class DrawerManagementFrame extends JInternalFrame {
 	private JTable table;
 	DefaultTableModel model;
 	Object[] row = new Object[2];
@@ -40,10 +34,10 @@ public class DrawerFrame extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DrawerFrame() {
+	public DrawerManagementFrame() {
 		setTitle("Drawer Management");
 		setClosable(true);
-		setBounds(12, 20, 920, 840);
+		setBounds(12, 20, 922, 494);
 		getContentPane().setLayout(null);
 
 		JLabel lblEnterEmployeeName = new JLabel("Enter Employee Name");
@@ -64,6 +58,7 @@ public class DrawerFrame extends JInternalFrame {
 
 		JButton btnGetDrawerRecord = new JButton("Get Drawer Record");
 		btnGetDrawerRecord.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				username = formattedEmployeeName.getText();
 				String date = formattedDateField.getText();
@@ -112,6 +107,7 @@ public class DrawerFrame extends JInternalFrame {
 
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				initialBalance.setText("0.0");
 				totalInvoices.setText("0");
@@ -124,20 +120,6 @@ public class DrawerFrame extends JInternalFrame {
 		});
 		btnReset.setBounds(209, 159, 163, 30);
 		getContentPane().add(btnReset);
-		/*
-		 * JScrollPane scrollPane = new JScrollPane(); scrollPane.setBounds(43, 222,
-		 * 349, 226); getContentPane().add(scrollPane);
-		 * 
-		 * table = new JTable(); scrollPane.setColumnHeaderView(table);
-		 * 
-		 * table = new JTable(); scrollPane.setViewportView(table);
-		 * table.setFocusable(false);
-		 * 
-		 * table.setFont(new Font("Georgia", Font.PLAIN, 10));
-		 * table.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 10)); model =
-		 * new DefaultTableModel(new Object[][] {}, new String[] { "Number of Invoices",
-		 * "Total Amount" }); // sPane.setViewportView(table); table.setModel(model);
-		 */
 	}
 
 	public boolean addDrawerTable(String username, String date) {
@@ -176,11 +158,7 @@ public class DrawerFrame extends JInternalFrame {
 				totalInvoices.setText(String.valueOf(invoice));
 				totalAmount.setText(String.valueOf(sum));
 				endDrawer.setText(String.valueOf(sum + dInitialBalance));
-				/*
-				 * row[0] = count; row[1] = sum;
-				 * 
-				 * // add row to the model model.addRow(row);
-				 */
+
 
 				bufferedReader.close();
 			} catch (IOException e) {

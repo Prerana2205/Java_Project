@@ -1,7 +1,5 @@
 package com.pos.frame;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JTextArea;
 
@@ -12,7 +10,7 @@ import javax.swing.JTextArea;
 public class AboutFrame extends JInternalFrame {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -21,10 +19,10 @@ public class AboutFrame extends JInternalFrame {
 	 */
 	public AboutFrame() {
 		setClosable(true);
-		setBounds(12, 20, 920, 840);
+		setBounds(12, 20, 620, 840);
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("About Software");
-		setSize(1000, 1000);
+		setSize(673, 442);
 		getContentPane().setLayout(null);
 
 		JTextArea txtrVersion = new JTextArea();

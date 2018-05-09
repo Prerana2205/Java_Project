@@ -1,6 +1,5 @@
 package com.pos.frame;
 
-import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,13 +11,14 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-public class CashierFrame extends JInternalFrame {
+public class CashierManagementFrame extends JInternalFrame {
 	private JTable table;
-	
-	public CashierFrame() {
+
+	public CashierManagementFrame() {
 		setBounds(100, 100, 450, 300);
 		setTitle("Cashier Report");
 		setClosable(true);
+
 		setBounds(100, 100, 623, 510);
 		getContentPane().setLayout(null);
 
@@ -32,7 +32,7 @@ public class CashierFrame extends JInternalFrame {
 				new String[] { "User", "Assignment from", "Assignment to", "Register", "Discrepancy" });
 		table.setModel(model);
 		scrollPane.setViewportView(table);
-		
+
 		JLabel lblCashierReport = new JLabel("Cashier Report");
 		lblCashierReport.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCashierReport.setBounds(161, 13, 263, 36);
@@ -50,7 +50,7 @@ public class CashierFrame extends JInternalFrame {
 		try {
 			fileReader = new FileReader("Cashier.txt");
 
-			 bufferedReader = new BufferedReader(fileReader);
+			bufferedReader = new BufferedReader(fileReader);
 
 			while ((line = bufferedReader.readLine()) != null) {
 				String lines[] = line.split(" ");

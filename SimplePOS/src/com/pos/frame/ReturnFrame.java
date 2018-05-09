@@ -1,9 +1,15 @@
 package com.pos.frame;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,15 +20,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.pos.input.SystemInput;
-
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.awt.event.ActionEvent;
 
 /**
  * @author Prerana
@@ -52,7 +49,7 @@ public class ReturnFrame extends JInternalFrame {
 
 		setTitle("Create Return");
 		setClosable(true);
-		setBounds(12, 20, 920, 840);
+		setBounds(12, 20, 920, 605);
 		getContentPane().setLayout(null);
 
 		JLabel lblInvoice = new JLabel("Invoice #");
@@ -77,6 +74,7 @@ public class ReturnFrame extends JInternalFrame {
 
 		JButton btnProcessReturn = new JButton("Process Return");
 		btnProcessReturn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				processReturn();
 			}
@@ -108,18 +106,19 @@ public class ReturnFrame extends JInternalFrame {
 
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (textFieldItemId.getText().length() == 0 || textFieldItemQty.getText().length() == 0
-						|| textFieldInvoice.getText().length() == 0)
+						|| textFieldInvoice.getText().length() == 0) {
 					JOptionPane.showMessageDialog(null, "Enter all the details");
-				else if (Double.valueOf(textFieldItemQty.getText()) > 0.0) {
+				} else if (Double.valueOf(textFieldItemQty.getText()) > 0.0) {
 					// check invoice no in invoice/
-					if (findInvoice())
-						// check itemid and item present in items.txt
-
+					if (findInvoice()) {
 						addItemsToTable(textFieldItemId.getText(), Double.valueOf(textFieldItemQty.getText()));
-				} else
+					}
+				} else {
 					JOptionPane.showMessageDialog(null, "Enter a Valid Quantity of Item");
+				}
 
 			}
 		});
@@ -128,6 +127,7 @@ public class ReturnFrame extends JInternalFrame {
 
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
 				try {
@@ -145,6 +145,7 @@ public class ReturnFrame extends JInternalFrame {
 
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				resetTextFields();
 
@@ -208,7 +209,6 @@ public class ReturnFrame extends JInternalFrame {
 		try {
 			input = new Scanner(itemsList);
 			String newLine;
-			double itemQty;
 			while (input.hasNextLine()) {
 				newLine = input.nextLine();
 				item = newLine.split("\\W+");
@@ -253,12 +253,14 @@ public class ReturnFrame extends JInternalFrame {
 					f = fileEntry;
 					fileN = fileName.split("\\.");
 					startNo = Integer.parseInt(fileN[0]);
-					if (currentNo == startNo)
+					if (currentNo == startNo) {
 						break;
+					}
 				}
 			}
-		} else
+		} else {
 			JOptionPane.showMessageDialog(null, "No invoice yet");
+		}
 		if (currentNo == startNo) {
 			// JOptionPane.showMessageDialog(null, "Return Processed");
 			isfound = true;
@@ -309,8 +311,9 @@ public class ReturnFrame extends JInternalFrame {
 				}
 				if (itemFound == false) {
 					JOptionPane.showMessageDialog(null, "No item  found in the invoice");
-				} else if (itemQuantityFound == false && itemFound == true)
+				} else if (itemQuantityFound == false && itemFound == true) {
 					JOptionPane.showMessageDialog(null, "Quantity entered doesnt match the invoice quantity");
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -1,18 +1,15 @@
 package com.pos.frame.report;
 
-import java.awt.EventQueue;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.JInternalFrame;
-import javax.swing.JScrollPane;
-import java.awt.BorderLayout;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class RegisterReport extends JInternalFrame {
 	private JTable table;
@@ -36,7 +33,7 @@ public class RegisterReport extends JInternalFrame {
 				new String[] { "Register#", "UserName", "LogOnDate", "LogOffDate", "LogOnTime","LogOffTime","TotalSales" });
 		table.setModel(model);
 		scrollPane.setViewportView(table);
-		
+
 		JLabel lblRegisterReport = new JLabel("Register Report");
 		lblRegisterReport.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegisterReport.setBounds(161, 13, 263, 36);
@@ -54,7 +51,7 @@ public class RegisterReport extends JInternalFrame {
 		try {
 			fileReader = new FileReader("Register.txt");
 
-			 bufferedReader = new BufferedReader(fileReader);
+			bufferedReader = new BufferedReader(fileReader);
 
 			while ((line = bufferedReader.readLine()) != null) {
 				String lines[] = line.split(" ");

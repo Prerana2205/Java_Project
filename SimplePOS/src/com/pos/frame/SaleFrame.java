@@ -1,32 +1,24 @@
 package com.pos.frame;
 
-import java.awt.EventQueue;
-import java.awt.Font;
-
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-
-import javax.swing.JFormattedTextField;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -37,10 +29,6 @@ import javax.swing.table.DefaultTableModel;
 
 import com.pos.input.Inventory;
 import com.pos.input.SystemInput;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.JDesktopPane;
 
 /**
  * @author Prerana
@@ -72,14 +60,14 @@ public class SaleFrame extends JInternalFrame {
 
 	/**
 	 * Create the frame.
-	 * 
+	 *
 	 * @param username
 	 */
 	public SaleFrame(SystemInput systemInput, int registerNumber) {
 		this.username = systemInput.getUserName();
 		setTitle("Create Sale");
 		setClosable(true);
-		setBounds(12, 20, 920, 840);// 12, 43, 958, 884
+		setBounds(12, 20, 920, 553);// 12, 43, 958, 884
 		getContentPane().setLayout(null);
 
 		JLabel lblItemId = new JLabel("Item ID");
@@ -102,15 +90,18 @@ public class SaleFrame extends JInternalFrame {
 		JButton btnAddToTable = new JButton("Add");
 
 		btnAddToTable.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// CreateSalePanel csp = new CreateSalePanel();
 				// csp.setVisible(true);
-				if (textFieldItemId.getText().length() == 0)
+				if (textFieldItemId.getText().length() == 0) {
 					JOptionPane.showMessageDialog(null, "Enter a Valid ItemId");
-				else if (((Number) textFieldQuantity.getValue()).doubleValue() > 0) {
-					addItemsToTable(textFieldItemId.getText(), ((Number) textFieldQuantity.getValue()).doubleValue());
-				} else
+				} else if (((Number) textFieldQuantity.getValue()).doubleValue() > 0) {
+					int quantity = Integer.valueOf(textFieldQuantity.getText());
+					addItemsToTable(textFieldItemId.getText(), quantity);
+				} else {
 					JOptionPane.showMessageDialog(null, "Enter a Valid Quantity of Item");
+				}
 
 			}
 		});
@@ -119,6 +110,7 @@ public class SaleFrame extends JInternalFrame {
 
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				resetTextFields();
 
@@ -129,6 +121,7 @@ public class SaleFrame extends JInternalFrame {
 
 		JButton btnPrintReceipt = new JButton("Print Receipt");
 		btnPrintReceipt.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (table.getRowCount() > 0) {
 					if (((Number) textFieldCashReceived.getValue())
@@ -136,13 +129,12 @@ public class SaleFrame extends JInternalFrame {
 						cashReturned = ((Number) textFieldCashReceived.getValue()).doubleValue()
 								- ((Number) textFieldGrandTotal.getValue()).doubleValue();
 						textFieldCashReturned.setValue(cashReturned);
-						generateReceipt();
+						generateReceipt(systemInput, textFieldCashReceived);
 
 						/*
-						 * cashDiscrepancy = cashDiscrepancy +
-						 * textFieldGrandTotal.getValue();
+						 * cashDiscrepancy = cashDiscrepancy + textFieldGrandTotal.getValue();
 						 */ // JOptionPane.showMessageDialog(null, "Generating
-							// Receipt");
+						// Receipt");
 						int type = JOptionPane.showConfirmDialog(null, "Receipt generated", "",
 								JOptionPane.OK_CANCEL_OPTION);
 
@@ -153,10 +145,12 @@ public class SaleFrame extends JInternalFrame {
 
 						}
 
-					} else
+					} else {
 						JOptionPane.showMessageDialog(null, "Please enter Cash Received greater than Grand Total");
-				} else
+					}
+				} else {
 					JOptionPane.showMessageDialog(null, "Please enter some items before printing");
+				}
 
 			}
 
@@ -196,8 +190,6 @@ public class SaleFrame extends JInternalFrame {
 		sPane.setViewportView(table);
 		table.setFocusable(false);
 
-		table.setFont(new Font("Georgia", Font.PLAIN, 13));
-		table.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 10));
 		model = new DefaultTableModel(new Object[][] {},
 				new String[] { "Item #", "Item ID", "Item Description", "Price", "Quantity", "Total" });
 		// sPane.setViewportView(table);
@@ -253,6 +245,7 @@ public class SaleFrame extends JInternalFrame {
 		getContentPane().add(btnRemove);
 
 		btnRemove.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int selectedRowIndex = table.getSelectedRow();
@@ -269,10 +262,11 @@ public class SaleFrame extends JInternalFrame {
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()) {
 					boolean rowsAreSelected = table.getSelectedRowCount() > 0;
-					if (rowsAreSelected == true)
+					if (rowsAreSelected == true) {
 						btnRemove.setEnabled(true);
-					else
+					} else {
 						btnRemove.setEnabled(false);
+					}
 				}
 			}
 		});
@@ -283,7 +277,7 @@ public class SaleFrame extends JInternalFrame {
 	double itemPrice = 0;
 	double itemTotal = 0;
 
-	public void addItemsToTable(String itemId, double itemQuantity) {
+	public void addItemsToTable(String itemId, int itemQuantity) {
 		// TODO Auto-generated method stub
 		File itemsList = new File("Items.txt");
 		String[] item;
@@ -334,11 +328,11 @@ public class SaleFrame extends JInternalFrame {
 
 	public void calculateGrandTotal() {
 		double total = 0;
-		double totalItemQty = 0;
+		int totalItemQty = 0;
 		for (int i = 0; i < table.getRowCount(); i++) {
 			double amount = (double) table.getValueAt(i, 5);
 			total += amount;
-			double itemQty = (double) table.getValueAt(i, 4);
+			int itemQty = (int) table.getValueAt(i, 4);
 			totalItemQty += itemQty;
 		}
 		textFieldGrandTotal.setValue(total);
@@ -365,8 +359,9 @@ public class SaleFrame extends JInternalFrame {
 					fileN = fileName.split("\\.");
 					currentNo = Integer.parseInt(fileN[0]);
 					// System.out.println("File " + listOfFiles[i].getName());
-					if (currentNo >= startNo)
+					if (currentNo >= startNo) {
 						startNo = currentNo;
+					}
 				}
 			}
 		}
@@ -377,7 +372,7 @@ public class SaleFrame extends JInternalFrame {
 	}
 
 	// Work under progress
-	private void generateReceipt() {
+	private void generateReceipt(SystemInput systemInput, JFormattedTextField cashReceived) {
 		// receiptNumber = 1 ;
 
 		File newReceipt = new File("./Invoices/" + receiptNumber + ".txt");
@@ -422,15 +417,15 @@ public class SaleFrame extends JInternalFrame {
 			output.newLine();
 			output.close();
 
-			createDrawerFile(username, receiptNumber, textFieldGrandTotal);
+			createDrawerFile(systemInput, receiptNumber, textFieldGrandTotal, cashReceived);
 			/// **************decrement quantity from Items.txt
 			Inventory inv = new Inventory();
 			int itemId[] = new int[table.getRowCount()];
 			int quantity[] = new int[table.getRowCount()];
 			for (int i = 0; i < table.getRowCount(); i++) {
-				itemId[i]= ((Integer) table.getValueAt(i, 0)).intValue();
-				quantity[i] = ((Integer) table.getValueAt(i, 4)).intValue();
-			
+				itemId[i] = ((Integer) table.getValueAt(i, 0)).intValue();
+				quantity[i]= Integer.valueOf(table.getValueAt(i, 4).toString());
+				//quantity[i] = ((Integer) table.getValueAt(i, 4)).intValue();
 
 			}
 			inv.decrementQuantity(itemId, quantity);
@@ -442,14 +437,15 @@ public class SaleFrame extends JInternalFrame {
 
 	}
 
-	public void createDrawerFile(String username, int receiptNumber, JFormattedTextField textFieldGrandTotal) {
+	public void createDrawerFile(SystemInput systemInput, int receiptNumber, JFormattedTextField textFieldGrandTotal,
+			JFormattedTextField cashReceived) {
 
 		boolean existingFile = false;
 		String pattern = "MM-dd-yyyy";
 		String dateInString = new SimpleDateFormat(pattern).format(new Date());
 		System.out.println(dateInString);
 
-		String fileName = username + "_" + dateInString + ".txt";
+		String fileName = systemInput.getUserName() + "_" + dateInString + ".txt";
 		File folder = new File("Drawer/");
 		File[] listOfFiles = folder.listFiles();
 		File fileToAdd = null;
@@ -471,7 +467,8 @@ public class SaleFrame extends JInternalFrame {
 				fileWriter = new FileWriter(fileToAdd);
 			}
 			BufferedWriter output = new BufferedWriter(fileWriter);
-			output.write(receiptNumber + " " + textFieldGrandTotal.getValue() + " " + cashReturned);
+			output.write(receiptNumber + " " + textFieldGrandTotal.getValue() + " " + cashReturned + " "
+					+ systemInput.getRegisterNumber()+" "+cashReceived.getText());
 			output.newLine();
 			output.close();
 		} catch (IOException e) {

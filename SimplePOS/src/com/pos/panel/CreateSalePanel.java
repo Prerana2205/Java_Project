@@ -1,19 +1,18 @@
 package com.pos.panel;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import javax.swing.JTable;
-import javax.swing.JLabel;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Prerana
@@ -51,7 +50,7 @@ public class CreateSalePanel extends JPanel {
 		// sPane.setViewportView(table);
 		table.setModel(model);
 		//model.addRow(row);
-		
+
 		lblInvoice = new JLabel("Invoice#");
 		lblInvoice.setBounds(12, 23, 56, 16);
 		add(lblInvoice);
@@ -105,12 +104,12 @@ public class CreateSalePanel extends JPanel {
 
 			model.addRow(row);sPane.setViewportView(table);
 			input.close();
-		} 
-		
+		}
+
 		catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 }
