@@ -2,6 +2,7 @@ package com.pos.frame;
 
 import javax.swing.*;
 
+import com.pos.frame.report.InventoryReport;
 import com.pos.main.SwingDesign;
 
 import java.awt.*;
@@ -162,6 +163,28 @@ public class MainPageFrame extends JFrame {
 			}
 		});
 		mnHelp.add(mntmLogout);
+		
+		JMenu mnReports = new JMenu("Reports");
+		menuBar.add(mnReports);
+		
+		JMenuItem mntmRegister = new JMenuItem("Register");
+		mnReports.add(mntmRegister);
+		
+		JMenuItem mntmInventory = new JMenuItem("Inventory");
+		mntmInventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				desktop.removeAll();
+				desktop.updateUI();
+				InventoryReport inventoryReport = new InventoryReport();
+				desktop.add(inventoryReport);
+				inventoryReport.setVisible(true);
+				
+			}
+		});
+		mnReports.add(mntmInventory);
+		
+		JMenuItem mntmCashier = new JMenuItem("Cashier");
+		mnReports.add(mntmCashier);
 
 		prepareGUI();
 	}
