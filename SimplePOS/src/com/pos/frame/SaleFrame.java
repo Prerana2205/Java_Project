@@ -67,6 +67,7 @@ public class SaleFrame extends JInternalFrame {
 	JFormattedTextField textFieldQuantity;
 	double cashReceived, grandTotal, cashReturned;
 	String username;
+	double cashDiscrepancy;
 
 	/**
 	 * Create the frame.
@@ -136,7 +137,10 @@ public class SaleFrame extends JInternalFrame {
 						- ((Number) textFieldGrandTotal.getValue()).doubleValue();
 						textFieldCashReturned.setValue(cashReturned);
 						generateReceipt();
-						// JOptionPane.showMessageDialog(null, "Generating
+						
+						
+/*						cashDiscrepancy = cashDiscrepancy + textFieldGrandTotal.getValue();
+*/						// JOptionPane.showMessageDialog(null, "Generating
 						// Receipt");
 						int type = JOptionPane.showConfirmDialog(null, "Receipt generated", "", JOptionPane.OK_CANCEL_OPTION);
 
@@ -478,6 +482,10 @@ public class SaleFrame extends JInternalFrame {
 
 		model.setRowCount(0);
 
+	}
+	
+	public void calculateCashierDiscrepancy(){
+		//cashDiscrepancy = ;
 	}
 	/*
 	 * public static void main(String[] args) { EventQueue.invokeLater(new

@@ -3,6 +3,7 @@ package com.pos.frame;
 import javax.swing.*;
 
 import com.pos.frame.report.InventoryReport;
+import com.pos.input.Cashier;
 import com.pos.frame.report.RegisterReport;
 import com.pos.input.SystemInput;
 import com.pos.main.SwingDesign;
@@ -25,8 +26,8 @@ import java.awt.event.ActionEvent;
 public class MainPageFrame extends JFrame {
 	JLabel labelDateTime;
 	private JTextField textFieldRegisterNumber;
-	long endTimeInSeconds;
-	long beginTimeInSeconds;
+	long cashierEndTime;
+	long cashierStartTime;
 	SystemInput systemInput;
 
 	public MainPageFrame(String userName) {
@@ -35,9 +36,6 @@ public class MainPageFrame extends JFrame {
 		systemInput.setLogOnTime();
 		systemInput.setUserName(userName);
 		systemInput.setRegisterNumber("1");
-
-		beginTimeInSeconds = System.currentTimeMillis() / 1000;
-
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Welcome " + userName);
 		setSize(1000, 1000);
@@ -144,6 +142,16 @@ public class MainPageFrame extends JFrame {
 		mnSettings.add(mntmDrawerManagement);
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("Cashier Management");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				desktop.removeAll();
+				desktop.updateUI();
+				CashierFrame cashier = new CashierFrame();
+				desktop.add(cashier);
+				cashier.setVisible(true);
+
+			}
+		});
 		mnSettings.add(mntmNewMenuItem);
 
 		JMenu mnHelp = new JMenu("Help");
@@ -167,9 +175,12 @@ public class MainPageFrame extends JFrame {
 		JMenuItem mntmLogout = new JMenuItem("Logout");
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				endTimeInSeconds = System.currentTimeMillis() / 1000;
-				recordCashierLogTime();
-				dispose();
+				cashierEndTime = System.currentTimeMillis() / 1000 / 60;
+				/*
+				 * Cashier cashier = new
+				 * Cashier(username,cashierStartTime,cashierEndTime,
+				 * Integer.parseInt(textFieldRegisterNumber.getText()), );
+				 */ dispose();
 				SwingDesign sd = new SwingDesign();
 				sd.setSize(300, 400);
 				sd.setVisible(true);
@@ -250,7 +261,8 @@ public class MainPageFrame extends JFrame {
 	}
 
 	public void recordCashierLogTime() {
-		long loggedTime = endTimeInSeconds - beginTimeInSeconds;
+
+		// long loggedTime = endTimeInSeconds - beginTimeInSeconds;
 
 	}
 }
