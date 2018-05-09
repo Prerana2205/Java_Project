@@ -8,12 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class FileReference {
 
-    public HashMap<Integer, Item> readItems() {
+    public LinkedHashMap<Integer, Item> readItems() {
 
-        HashMap<Integer, Item> items = new HashMap<>();
+        LinkedHashMap<Integer, Item> items = new LinkedHashMap();
         ArrayList<String> itemLine = read();
 
         for (int i = 0; i < itemLine.size(); i++) {
@@ -59,7 +60,11 @@ public class FileReference {
                 writer.write(item.getDescription() + " ");
                 writer.write(item.getPrice() + " ");
                 writer.write(item.getQuantity() + " ");
-                writer.write(item.getThreshold() + "\n");
+                writer.write(item.getThreshold() + " ");
+                writer.write(item.getSupplier() + " ");
+                writer.write(item.getQuantityOrderPlaced() + " ");
+                writer.write(item.getPlaceDate() + "\n");
+                
             }
 
             writer.close();

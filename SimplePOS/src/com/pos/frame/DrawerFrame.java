@@ -30,14 +30,12 @@ public class DrawerFrame extends JInternalFrame {
 	DefaultTableModel model;
 	Object[] row = new Object[2];
 	String username;
-	double dInitialBalance= 500;
+	double dInitialBalance = 500;
 
 	JLabel initialBalance;
 	JLabel totalInvoices;
 	JLabel totalAmount;
 	JLabel endDrawer;
-
-	
 
 	/**
 	 * Create the frame.
@@ -111,7 +109,7 @@ public class DrawerFrame extends JInternalFrame {
 		totalAmount = new JLabel("0.0");
 		totalAmount.setBounds(263, 378, 118, 30);
 		getContentPane().add(totalAmount);
-		
+
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,14 +119,14 @@ public class DrawerFrame extends JInternalFrame {
 				totalAmount.setText("0.0");
 				formattedEmployeeName.setText("");
 				formattedDateField.setText("");
-				
+
 			}
 		});
 		btnReset.setBounds(209, 159, 163, 30);
 		getContentPane().add(btnReset);
 		/*
-		 * JScrollPane scrollPane = new JScrollPane(); scrollPane.setBounds(43,
-		 * 222, 349, 226); getContentPane().add(scrollPane);
+		 * JScrollPane scrollPane = new JScrollPane(); scrollPane.setBounds(43, 222,
+		 * 349, 226); getContentPane().add(scrollPane);
 		 * 
 		 * table = new JTable(); scrollPane.setColumnHeaderView(table);
 		 * 
@@ -136,19 +134,17 @@ public class DrawerFrame extends JInternalFrame {
 		 * table.setFocusable(false);
 		 * 
 		 * table.setFont(new Font("Georgia", Font.PLAIN, 10));
-		 * table.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 10));
-		 * model = new DefaultTableModel(new Object[][] {}, new String[] {
-		 * "Number of Invoices", "Total Amount" }); //
-		 * sPane.setViewportView(table); table.setModel(model);
+		 * table.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 10)); model =
+		 * new DefaultTableModel(new Object[][] {}, new String[] { "Number of Invoices",
+		 * "Total Amount" }); // sPane.setViewportView(table); table.setModel(model);
 		 */
 	}
 
 	public boolean addDrawerTable(String username, String date) {
-		
-		
+
 		boolean fileFound = false;
 		Double sum = 0.0;
-		Double sumReturnValue= 0.0;
+		Double sumReturnValue = 0.0;
 		int invoice = 0;
 
 		String fileName = username + "_" + date + ".txt";
@@ -171,7 +167,7 @@ public class DrawerFrame extends JInternalFrame {
 				while ((line = bufferedReader.readLine()) != null) {
 					String fields[] = line.split(" ");
 					String value = fields[1];
-					String returnValue =fields[2]; 
+					String returnValue = fields[2];
 					sum = sum + Double.valueOf(value);
 					sumReturnValue = sumReturnValue + Double.valueOf(returnValue);
 					invoice = invoice + 1;
@@ -179,14 +175,13 @@ public class DrawerFrame extends JInternalFrame {
 				initialBalance.setText(String.valueOf(dInitialBalance));
 				totalInvoices.setText(String.valueOf(invoice));
 				totalAmount.setText(String.valueOf(sum));
-				endDrawer.setText(String.valueOf(sum+dInitialBalance));
+				endDrawer.setText(String.valueOf(sum + dInitialBalance));
 				/*
 				 * row[0] = count; row[1] = sum;
 				 * 
 				 * // add row to the model model.addRow(row);
 				 */
 
-			
 				bufferedReader.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -196,6 +191,5 @@ public class DrawerFrame extends JInternalFrame {
 
 		return fileFound;
 	}
-	
-	
+
 }
