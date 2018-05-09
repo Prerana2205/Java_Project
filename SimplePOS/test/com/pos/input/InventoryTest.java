@@ -12,12 +12,12 @@ public class InventoryTest extends TestCase {
 	
 	public void testReadInventory(){
 	
-	//	System.out.println(inventory.getItemId());
+	System.out.println(inventory.getItemId());
 	}
 	
 	public void testWriteItems(){
 		Item item = createItem();
-		inventory.updateInventory(item);
+		inventory.addInventory(item);
 	}
 
 	private Item createItem() {
@@ -33,5 +33,9 @@ public class InventoryTest extends TestCase {
 		item.setPlaceOrder(false);
 		
 		return item;
+	}
+	
+	public void testRemoveItem() {
+		inventory.removeItem(2);
 	}
 }

@@ -176,7 +176,7 @@ public class InventoryManagementFrame extends JInternalFrame {
 			item.setPrice(itemPrice);
 			item.setQuantity(itemFieldQuantity);
 			item.setThreshold(thresholdQuantity);
-			boolean success = inventory.updateInventory(item);
+			boolean success = inventory.addInventory(item);
 			if(success){
 				JOptionPane.showMessageDialog(null, "Item Added Succesfuly");
 				textFieldItemDescription.setText("");
